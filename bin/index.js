@@ -2,7 +2,6 @@
 const shell = require('shelljs')
 const yargs = require('yargs')
 const chalk = require('chalk')
-const chalkAnimation = require('chalk-animation')
 
 console.log(chalk.cyan('Executing release procedure please wait'))
 const argv = yargs
@@ -26,15 +25,15 @@ const argv = yargs
     .help().alias('help', "h").argv
 
 if (argv._.includes('release')) {
-    const anim = chalkAnimation.karaoke(`release mode is set to ` + chalk.cyan(argv.versionToRelease))
+    console.log(`release mode is set to ` + chalk.greenBright(argv.versionToRelease))
     shell.exec(` npm version ${argv.versionToRelease} --no-git-tag`)
-    setTimeout(() => {
-        anim.stop()
-    }, 2500)
     if (argv.commitMessage) {
+        console.log(`${argv.commitMessage} -->` + chalk.green(' Rolling Git operation'))
         shell.exec(` git add .`)
         shell.exec(` git commit -m "${argv.commitMessage}"`)
         shell.exec(` git pull --no-rebase`)
         shell.exec(` git push`)
+    } else {
+        console.log(`No commit message -->` + chalk.yellow(` Skipping Git operation`))
     }
 }
