@@ -20,7 +20,12 @@ const argv = yargs
             alias: "c",
             type: "string",
             default: undefined
+        },
+        branch:
+        {
+            description: "Branch to release"
         }
+
     })
     .help().alias('help', "h").argv
 
