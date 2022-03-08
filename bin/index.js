@@ -28,10 +28,13 @@ const argv = yargs
 if (argv._.includes('release')) {
     const anim = chalkAnimation.karaoke(`release mode is set to ` + chalk.cyan(argv.versionToRelease))
     shell.exec(` npm version ${argv.versionToRelease} --no-git-tag`)
-    shell.exec(` git add .`)
-    shell.exec(` git commit -m "${argv.commitMessage}"`)
-    shell.exec(` git pull && git push`)
     setTimeout(() => {
         anim.stop()
     }, 2500)
+    if (argv.commitMessage) {
+        shell.exec(` git add .`)
+        shell.exec(` git commit -m "${argv.commitMessage}"`)
+        shell.exec(` git pull --no-rebase`)
+        shell.exec(` git push`)
+    }
 }
