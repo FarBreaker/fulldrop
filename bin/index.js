@@ -20,6 +20,16 @@ const argv = yargs
             alias: "c",
             type: "string",
             default: undefined
+<<<<<<< Updated upstream
+=======
+        },
+        branch:
+        {
+            description: "Branch to release",
+            alias: "b",
+            type: "string",
+            default: undefined
+>>>>>>> Stashed changes
         }
     })
     .help().alias('help', "h").argv
@@ -29,6 +39,11 @@ if (argv._.includes('release')) {
     shell.exec(` npm version ${argv.versionToRelease} --no-git-tag`)
     if (argv.commitMessage) {
         console.log(`${argv.commitMessage} -->` + chalk.green(' Rolling Git operation'))
+        if (argv.branch) {
+            shell.exec('git stash')
+            shell.exec(`git checkout ${argv.branch}`)
+            shell.exec('git stash pop')
+        }
         shell.exec(` git add .`)
         shell.exec(` git commit -m "${argv.commitMessage}"`)
         shell.exec(` git pull --no-rebase`)
