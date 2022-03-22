@@ -54,8 +54,8 @@ if (argv._.includes('release')) {
             console.log(argv.task)
         }
         shell.exec(` git commit -m "${argv.task} ${argv.commitMessage}"`)
-        // shell.exec(` git pull --no-rebase`)
-        // shell.exec(` git push`)
+        shell.exec(` git pull --no-rebase`)
+        shell.exec(` git push`)
     } else {
         console.log(`No commit message -->` + chalk.yellow(` Skipping Git operation`))
     }
