@@ -21,11 +21,18 @@ const argv = yargs
             type: "string",
             default: undefined
         },
-        branch:
+        // branch:
+        // {
+        //     description: "Branch to release",
+        //     alias: "b",
+        //     type: "string",
+        //     default: undefined
+        // },
+        task:
         {
-            description: "Branch to release",
-            alias: "b",
-            type: "string",
+            description: "Task Identifier",
+            alias: "t",
+            type: 'string',
             default: undefined
         }
 
@@ -37,15 +44,18 @@ if (argv._.includes('release')) {
     shell.exec(` npm version ${argv.versionToRelease} --no-git-tag`)
     if (argv.commitMessage) {
         console.log(`${argv.commitMessage} -->` + chalk.green(' Rolling Git operation'))
-        if (argv.branch) {
-            shell.exec('git stash')
-            shell.exec(`git checkout ${argv.branch}`)
-            shell.exec('git stash pop')
-        }
+        // if (argv.branch) {
+        //     shell.exec('git stash')
+        //     shell.exec(`git checkout ${argv.branch}`)
+        //     shell.exec('git stash pop')
+        // }
         shell.exec(` git add .`)
-        shell.exec(` git commit -m "${argv.commitMessage}"`)
-        shell.exec(` git pull --no-rebase`)
-        shell.exec(` git push`)
+        if (argv.task) {
+            console.log(argv.task)
+        }
+        shell.exec(` git commit -m "${argv.task} ${argv.commitMessage}"`)
+        // shell.exec(` git pull --no-rebase`)
+        // shell.exec(` git push`)
     } else {
         console.log(`No commit message -->` + chalk.yellow(` Skipping Git operation`))
     }
